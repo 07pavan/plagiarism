@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Detection Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <i class="fas fa-search-plus header-icon"></i>
+                <h1>Plagiarism Detection Tool</h1>
+                <p>Upload two documents to check for similarity</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <form method="POST" enctype="multipart/form-data" class="upload-form">
+                <div class="form-grid">
+                    <div class="file-upload-section">
+                        <h3><i class="fas fa-file-upload"></i> Upload Documents</h3>
+                        
+                        <div class="file-input-group">
+                            <label for="file1" class="file-label">
+                                <i class="fas fa-file-alt"></i>
+                                <span>First Document</span>
+                            </label>
+                            <input type="file" id="file1" name="file1" accept=".txt,.csv,.pdf" required>
+                            <div class="file-info">Supported: TXT, CSV, PDF</div>
+                        </div>
+
+                        <div class="file-input-group">
+                            <label for="file2" class="file-label">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Second Document</span>
+                            </label>
+                            <input type="file" id="file2" name="file2" accept=".txt,.csv,.pdf" required>
+                            <div class="file-info">Supported: TXT, CSV, PDF</div>
+                        </div>
+                    </div>
+
+                    <div class="language-section">
+                        <h3><i class="fas fa-language"></i> Select Language</h3>
+                        <div class="language-selector">
+                            {% for code, name in languages.items() %}
+                            <label class="language-option">
+                                <input type="radio" name="language" value="{{ code }}" 
+                                       {% if selected_lang == code %}checked{% endif %}>
+                                <span class="language-name">{{ name }}</span>
+                                <span class="language-code">{{ code.upper() }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-search"></i>
+                    <span>Check Plagiarism</span>
+                </button>
+            </form>
+
+            {% if similarity is not none %}
+            <div class="results-section">
+                <div class="results-header">
+                    <h2><i class="fas fa-chart-line"></i> Analysis Results</h2>
+                </div>
+
+                <div class="results-grid">
+                    <div class="similarity-card">
+                        <div class="similarity-score">
+                            <div class="score-circle {{ 'high-similarity' if similarity > 80 else 'acceptable-similarity' }}">
+                                <span class="score-number">{{ "%.1f"|format(similarity) }}%</span>
+                                <span class="score-label">Similarity</span>
+                            </div>
+                        </div>
+                        
+                        <div class="similarity-status">
+                            {% if similarity > 80 %}
+                                <div class="status-badge high-risk">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    High Plagiarism Risk
+                                </div>
+                            {% else %}
+                                <div class="status-badge low-risk">
+                                    <i class="fas fa-check-circle"></i>
+                                    Acceptable Similarity
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if hand_sign_image %}
+                    <div class="visual-indicator">
+                        <h4><i class="fas fa-hand-paper"></i> Visual Indicator</h4>
+                        <div class="hand-sign-container">
+                            <img src="{{ url_for('static', filename=hand_sign_image) }}" 
+                                 alt="Hand sign indicator" 
+                                 class="hand-sign-image"
+                                 onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="message-section">
+                        <h4><i class="fas fa-comment-alt"></i> Analysis Message</h4>
+                        <div class="message-content">
+                            <p>{{ message }}</p>
+                            
+                            {% if audio_file %}
+                            <div class="audio-player">
+                                <audio controls preload="none">
+                                    <source src="{{ url_for('serve_audio', filename=audio_file.split('/')[-1]) }}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                                <div class="audio-info">
+                                    <i class="fas fa-volume-up"></i>
+                                    <span>Click to listen to the analysis</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Plagiarism Detection Tool. Built with Flask & Python.</p>
+                <div class="footer-links">
+                    <span><i class="fas fa-code"></i> Multi-language Support</span>
+                    <span><i class="fas fa-file-alt"></i> Multiple File Formats</span>
+                    <span><i class="fas fa-volume-up"></i> Audio Feedback</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // File upload preview
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const label = this.previousElementSibling;
+                    const fileName = this.files[0]?.name || 'Choose file';
+                    const fileSpan = label.querySelector('span');
+                    
+                    if (this.files[0]) {
+                        fileSpan.textContent = fileName;
+                        label.classList.add('file-selected');
+                    } else {
+                        fileSpan.textContent = label.dataset.original || fileSpan.textContent;
+                        label.classList.remove('file-selected');
+                    }
+                });
+                
+                // Store original text
+                const label = input.previousElementSibling;
+                const span = label.querySelector('span');
+                label.dataset.original = span.textContent;
+            });
+
+            // Form submission loading state
+            const form = document.querySelector('.upload-form');
+            const submitBtn = document.querySelector('.submit-btn');
+            
+            form.addEventListener('submit', function() {
+                submitBtn.classList.add('loading');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Processing...</span>';
+            });
+        });
+    </script>
+</body>
+</html>
