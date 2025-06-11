@@ -68,11 +68,12 @@ Usage Guide
 
 project/
 ├── static/
-│   ├── audio/       # Generated voice outputs
-│   ├── css/         # Stylesheets
-│   └── img/         # Hand sign images (img0.jpg to img100.jpg)
-├── templates/       # HTML templates
-├── uploads/         # Temporary file storage
-├── app.py           # Main application
-└── requirements.txt # Dependencies
+│   ├── audio/        # Generated voice outputs (TTS files)
+│   ├── css/          # Stylesheets (style.css)
+│   └── img/          # Hand sign images (img0.jpg to img100.jpg)
+├── templates/        # HTML templates (index.html)
+├── uploads/          # Temporary file storage (user uploads)
+├── app.py            # Main Flask application
+├── requirements.txt  # Python dependencies
+└── README.md         # Project documentation
 
