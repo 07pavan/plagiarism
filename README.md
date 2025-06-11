@@ -64,14 +64,20 @@ Usage Guide
 
    Enter to submit
    
-FILE STRUCTURE:
-
-project/static/audio # Generated voice outputs (TTS files)
-project/static/css/  # Stylesheets (style.css)
-project/static/img/  # Hand sign images (img0.jpg to img100.jpg)
-project/templates/   # HTML templates (index.html)
-project/uploads/          # Temporary file storage (user uploads)
-project/ app.py            # Main Flask application
-project/requirements.txt  # Python dependencies
-README.md         # Project documentation
+project/
+│
+├── app.py                    # 🔧 Main Flask application
+├── requirements.txt          # 📦 Python dependencies
+├── README.md                 # 📘 Project documentation
+│
+├── static/                   # 🎨 Static assets
+│   ├── audio/                # 🔊 Generated voice outputs (TTS files)
+│   ├── css/                  # 🎨 Stylesheets
+│   │   └── style.css
+│   ├── img/                  # 🖼️ Hand sign images (img0.jpg to img100.jpg)
+│
+├── templates/                # 🧩 HTML templates
+│   └── index.html
+│
+├── uploads/                  # 📂 Temporary file storage (user uploads)
 
