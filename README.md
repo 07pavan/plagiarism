@@ -64,20 +64,26 @@ Usage Guide
 
    Enter to submit
    
+# File Structure:
+"""
+📁 Project File Structure - Voice Chatbot Web App
+
 project/
 │
-├── app.py                    # 🔧 Main Flask application
-├── requirements.txt          # 📦 Python dependencies
-├── README.md                 # 📘 Project documentation
+├── app.py                    # 🔧 Main Flask application script
+├── requirements.txt          # 📦 List of Python dependencies
+├── README.md                 # 📘 Project documentation (overview, setup, usage)
 │
 ├── static/                   # 🎨 Static assets
-│   ├── audio/                # 🔊 Generated voice outputs (TTS files)
-│   ├── css/                  # 🎨 Stylesheets
+│   ├── audio/                # 🔊 Generated TTS audio files (e.g., output.mp3)
+│   ├── css/                  # 🎨 CSS stylesheets
 │   │   └── style.css
-│   ├── img/                  # 🖼️ Hand sign images (img0.jpg to img100.jpg)
+│   └── img/                  # 🖼️ Hand sign images (img0.jpg to img100.jpg)
 │
 ├── templates/                # 🧩 HTML templates
-│   └── index.html
+│   └── index.html            # 🖼️ Main webpage template
 │
-├── uploads/                  # 📂 Temporary file storage (user uploads)
+├── uploads/                  # 📂 Uploaded user files (e.g., PDFs or images)
+└── .gitignore                # 🚫 Files/folders to exclude from Git (optional)
 
+"""
