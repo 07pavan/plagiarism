@@ -64,7 +64,7 @@ Usage Guide
 
    Enter to submit
    
-# FILE STRUCTURE:
+FILE STRUCTURE:
 
 project/static/audio # Generated voice outputs (TTS files)
 project/static/css/  # Stylesheets (style.css)
