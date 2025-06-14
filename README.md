@@ -72,3 +72,9 @@ Usage Guide
 ![Screenshot 2025-06-14 162112](https://github.com/user-attachments/assets/245ef01a-5469-4373-9a64-d36e86990816)
 
 """
+# Sample Screenshots 
+
+![Screenshot 2025-06-14 162822](https://github.com/user-attachments/assets/79051bda-59fe-429f-a5f6-2940c92fcd0c)
+
+![Screenshot 2025-06-14 162643](https://github.com/user-attachments/assets/32b78272-d70e-4936-a99f-e0ab436826c3)
+
